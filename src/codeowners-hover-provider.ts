@@ -1,6 +1,4 @@
 import vscode from "vscode"
-import { dirname } from "path"
-import fs from "fs"
 
 export class CodeownersHoverProvider implements vscode.HoverProvider {
   provideHover(
@@ -14,18 +12,6 @@ export class CodeownersHoverProvider implements vscode.HoverProvider {
     }
     const idx = line.text.indexOf(m)
 
-    const workspaceDir = dirname(dirname(document.uri.fsPath))
-    const myPath = workspaceDir + "/" + m
-
-    let isDirectory: boolean | null = null
-    try {
-      isDirectory = fs.statSync(myPath).isDirectory()
-    } catch (e) {
-      // @ts-expect-error we should see this error.
-      if (e.code !== "ENOENT") {
-        console.error("github-code-owners", e)
-      }
-    }
     const x = new vscode.MarkdownString()
     x.appendCodeblock(m)
 
