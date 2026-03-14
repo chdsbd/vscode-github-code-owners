@@ -4,7 +4,7 @@
   "description": "Quickly see GitHub Code Owners for the current file. Add syntax highlighting for CODEOWNERS files.",
   "publisher": "chdsbd",
   "license": "SEE LICENSE IN LICENSE",
-  "version": "4.1.0",
+  "version": "4.2.0",
   "icon": "images/logo256.png",
   "homepage": "https://github.com/chdsbd/vscode-github-code-owners/blob/master/README.md",
   "keywords": [
@@ -229,7 +229,7 @@
     "typescript": "^4.9.5"
   },
   "dependencies": {
-    "@snyk/github-codeowners": "github:chdsbd/github-codeowners#chris/line-number-information",
+    "@snyk/github-codeowners": "github:chdsbd/github-codeowners#da8b03fa3cb4de086f3a564f1af03cc44288e43c",
     "lodash": "^4.17.21"
   },
   "volta": {
