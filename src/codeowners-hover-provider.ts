@@ -1,6 +1,4 @@
 import vscode from "vscode"
-import { dirname } from "path"
-import fs from "fs"
 
 export class CodeownersHoverProvider implements vscode.HoverProvider {
   provideHover(
@@ -14,22 +12,12 @@ export class CodeownersHoverProvider implements vscode.HoverProvider {
     }
     const idx = line.text.indexOf(m)
 
-    const workspaceDir = dirname(dirname(document.uri.fsPath))
-    const myPath = workspaceDir + "/" + m
-
-    let isDirectory: boolean | null = null
-    try {
-      isDirectory = fs.statSync(myPath).isDirectory()
-    } catch (e) {
-      // @ts-expect-error we should see this error.
-      if (e.code !== "ENOENT") {
-        console.error("github-code-owners", e)
-      }
-    }
     const x = new vscode.MarkdownString()
     x.appendCodeblock(m)
 
-    const isPattern = !m.startsWith("/")
+    const hasLeadingSlash = m.startsWith("/")
+    const hasTrailingSlash = m.endsWith("/")
+    const hasTrailingGlob = m.endsWith("/*")
 
     const range = new vscode.Range(
       new vscode.Position(position.line, idx),
@@ -38,16 +26,30 @@ export class CodeownersHoverProvider implements vscode.HoverProvider {
     if (!range.contains(position)) {
       return { contents: [] }
     }
+
+    const lines: string[] = []
+
+    if (hasLeadingSlash) {
+      lines.push("**Anchored to repo root** — only matches at the top level")
+    } else {
+      lines.push(
+        "**Matches at any depth** — applies to this path anywhere in the repository)",
+      )
+    }
+
+    if (hasTrailingGlob) {
+      lines.push(
+        "**Shallow match** — covers only direct children, not subdirectories",
+      )
+    } else if (hasTrailingSlash) {
+      lines.push(
+        "**Recursive directory match** — covers the directory and all its contents at any depth",
+      )
+    }
+
     return {
       range,
-      contents: [
-        x,
-        isPattern
-          ? "Matches all files with same name"
-          : isDirectory
-          ? `Matches all files in directory and subdirectories`
-          : `Matches path exactly`,
-      ],
+      contents: [x, lines.join("\n\n")],
     }
   }
 }
