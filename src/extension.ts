@@ -7,6 +7,7 @@ import { showOwnersCommandHandler } from "./show-owners-command"
 import { CodeownersHoverProvider } from "./codeowners-hover-provider"
 import { statusBarTextEditorListener } from "./status-bar-text-editor-listener"
 import { AlignOwnersFormattingProvider } from "./align-codeowners"
+import { registerCodeownersDiagnostics } from "./codeowners-diagnostic-provider"
 
 const COMMAND_ID = "github-code-owners.show-owners"
 
@@ -73,6 +74,8 @@ export function activate(context: vscode.ExtensionContext) {
       statusBarTextEditorListener(statusBarItem, outputChannel),
     ),
   )
+
+  registerCodeownersDiagnostics(context)
 
   vscode.workspace.onDidChangeConfiguration(() => {
     outputChannel.appendLine("Configuration changed: Reloading link provider")
