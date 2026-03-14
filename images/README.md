@@ -18,3 +18,7 @@ gifski -o anim.gif frames/frame*.png
 When embedding images, specify the height and width to be 1/2 the actual dimensions. This makes the images less blurry on high resolution displays.
 
 If an image is 816 × 370, specify the height and width to be 408x185.
+
+## Logo
+
+Figma link https://www.figma.com/design/IQ23hAbTCrekk6GdJeQVpa/Recipe-Yak?node-id=527-4&t=Rk6lJPQsvCbd2D2b-4
