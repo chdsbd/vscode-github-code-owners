@@ -42,11 +42,7 @@ export class CodeownersHoverProvider implements vscode.HoverProvider {
       range,
       contents: [
         x,
-        isPattern
-          ? "Matches all files with same name"
-          : isDirectory
-          ? `Matches all files in directory and subdirectories`
-          : `Matches path exactly`,
+        isPattern ? "Substring pattern match" : `Matches path exactly`,
       ],
     }
   }
