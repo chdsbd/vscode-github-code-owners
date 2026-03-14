@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Show error diagnostics for invalid CODEOWNERS patterns.
+- Show error diagnostics for invalid CODEOWNERS patterns (#34).
 
 ## 4.1.0 - 2024-04-13
 
