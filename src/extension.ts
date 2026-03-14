@@ -16,15 +16,20 @@ export function activate(context: vscode.ExtensionContext) {
   console.log("CODEOWNERS: activated")
   const outputChannel = vscode.window.createOutputChannel("Github Code Owners")
 
+  const CODEOWNERS_SELECTOR: vscode.DocumentSelector = {
+    language: "codeowners",
+    scheme: "file",
+  }
+
   const handles = {
     linkProvider: vscode.languages.registerDocumentLinkProvider(
-      "codeowners",
+      CODEOWNERS_SELECTOR,
       new GitHubUsernamesLinkProvider(),
     ),
   }
 
   vscode.languages.registerDocumentFormattingEditProvider(
-    "codeowners",
+    CODEOWNERS_SELECTOR,
     new AlignOwnersFormattingProvider(),
   )
 
@@ -37,21 +42,21 @@ export function activate(context: vscode.ExtensionContext) {
 
   context.subscriptions.push(
     vscode.languages.registerCompletionItemProvider(
-      "codeowners",
+      CODEOWNERS_SELECTOR,
       new OwnerNameCompletionItemProvider(),
       "@",
     ),
   )
   context.subscriptions.push(
     vscode.languages.registerCompletionItemProvider(
-      "codeowners",
+      CODEOWNERS_SELECTOR,
       new PathCompletionItemProvider(outputChannel),
       "/",
     ),
   )
   context.subscriptions.push(
     vscode.languages.registerHoverProvider(
-      "codeowners",
+      CODEOWNERS_SELECTOR,
       new CodeownersHoverProvider(),
     ),
   )
@@ -73,7 +78,7 @@ export function activate(context: vscode.ExtensionContext) {
     outputChannel.appendLine("Configuration changed: Reloading link provider")
     handles.linkProvider.dispose()
     handles.linkProvider = vscode.languages.registerDocumentLinkProvider(
-      "codeowners",
+      CODEOWNERS_SELECTOR,
       new GitHubUsernamesLinkProvider(),
     )
   })
