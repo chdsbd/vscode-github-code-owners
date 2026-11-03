@@ -122,13 +122,22 @@ notes\[1         @acme/notes
 # Other libraries: all four read `\*` as a literal `*`.
 \*.bak           @acme/backups
 
-# A `\` at the end of a line escapes nothing, so GitHub skips the line, and
-# `notes/` keeps the owners of earlier rules. Followed by a space, the `\`
-# would escape it, making the space part of the pattern.
+# A `\` at the end of a pattern escapes nothing and is dropped. Since a `\`
+# before a space or tab escapes it, the pattern has to end the line, so the
+# rule never has owners. Without a slash, this leaves `x/drafts` with no
+# owner, but not `drafts\`.
+drafts\
+
+# With a slash, the pattern also matches the `\` literally: this leaves
+# both `notes` and `notes\` with no owner.
 /notes\
 
 # A pattern of nothing but slashes is accepted but matches nothing.
 /                @acme/root
+
+# So is one with a `.` or `..` segment, since git paths never have one:
+# this doesn't own `src/x`.
+./src/           @acme/src
 
 # An escaped space is part of the pattern.
 # Other libraries: snyk rejects the line.

@@ -66,7 +66,7 @@
           "name": "constant.character.escape.codeowners"
         },
         {
-          "match": "\\\\.?",
+          "match": "\\\\.",
           "name": "invalid.illegal.escape.codeowners"
         },
         {
