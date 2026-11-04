@@ -26,4 +26,4 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Publish to Visual Studio Marketplace
-        run: npx --yes @vscode/vsce@4.1.0 publish --oidc
+        run: npx --no-install vsce publish --oidc
