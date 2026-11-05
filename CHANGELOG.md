@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Describe patterns correctly when hovering, following GitHub's matching rules. Lines GitHub skips or never matches now say so.
+
 ## 4.3.0 - 2026-11-04
 
 ### Changed
