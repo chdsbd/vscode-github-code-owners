@@ -1,6 +1,8 @@
-# [github-code-owners](https://github.com/chdsbd/vscode-github-code-owners) [![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/v/chdsbd.github-code-owners.svg)](https://marketplace.visualstudio.com/items?itemName=chdsbd.github-code-owners) [![Visual Studio Marketplace Installs](https://img.shields.io/visual-studio-marketplace/i/chdsbd.github-code-owners.svg)](https://marketplace.visualstudio.com/items?itemName=chdsbd.github-code-owners)
+# GitHub Code Owners
 
 A VS Code extension to display the GitHub Code Owners for the current file, as defined in the [CODEOWNERS](https://help.github.com/articles/about-codeowners/) file.
+
+[Install on the Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=chdsbd.github-code-owners)
 
 ## Features
 
@@ -11,6 +13,22 @@ Shows the first code owner. Click to see matching line in CODEOWNERS file.
 <img src="./images/none.png" height="22px" alt="no code owners"/> <img src="./images/user.png" height="22px" alt="one user code owner"/> <img src="./images/team-and-other.png" height="22px" alt="a team code owner and other"/>
 
 ### Language support
+
+The extension uses [gh-codeowners](https://github.com/chdsbd/gh-codeowners) to count file matches and warn about unused or malformed rules.
+
+#### Counts for matching rules
+
+<img src="./images/owns-4-files.png" alt="hover showing a rule owns 4 files" height="87px"/>
+
+#### Warning for unused rules
+
+<img src="./images/no-files-match.png" alt="warning that a rule owns no files" height="93px"/>
+
+#### Quick fixes for invalid patterns
+
+<img src="./images/invalid-pattern.png" alt="error for an invalid pattern, with the escaped version to use instead" height="142px"/>
+
+<img src="./images/quick-fix.png" alt="quick fix escaping the brackets in an invalid pattern" height="122px"/>
 
 #### Link usernames to GitHub
 

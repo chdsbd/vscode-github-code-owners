@@ -68,7 +68,10 @@ jobs:
   test:
     strategy:
       matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
+        include:
+          - { os: macos-latest, target: darwin-arm64 }
+          - { os: ubuntu-latest, target: linux-x64 }
+          - { os: windows-latest, target: win32-x64 }
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
@@ -81,6 +84,12 @@ jobs:
           node-version-file: "package.json"
       - name: Install dependencies
         run: npm ci
+      - name: Download gh-codeowners
+        shell: bash
+        run: ./s/download-server "$TARGET"
+        env:
+          TARGET: ${{ matrix.target }}
+          GH_TOKEN: ${{ github.token }}
       - name: Run tests ${{ matrix.os }}
         if: runner.os == 'Linux'
         run: xvfb-run -a npm test
