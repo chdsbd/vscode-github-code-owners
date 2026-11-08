@@ -14,7 +14,7 @@ Shows the first code owner. Click to see matching line in CODEOWNERS file.
 
 #### Errors, unused rules and file counts
 
-The extension runs [gh-codeowners](https://github.com/chdsbd/gh-codeowners) as a language server, which matches files the way GitHub does. Rules GitHub skips are underlined as errors, rules that own no files are faded like unused code, and each rule shows how many files it owns. Hover a pattern for more.
+The extension runs [gh-codeowners](https://github.com/chdsbd/gh-codeowners) as a language server, which matches files the way GitHub does. Rules GitHub skips are underlined as errors, rules that own no files are faded like unused code, and each rule shows how many files it owns. Hover a pattern for more. Hide the counts by setting `githubCodeOwners.fileCounts.enabled` to `false`.
 
 Builds for macOS, Linux and Windows bundle gh-codeowners. To use another binary, set `githubCodeOwners.languageServer.path`.
 

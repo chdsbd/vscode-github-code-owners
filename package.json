@@ -76,6 +76,12 @@
           "order": 2,
           "description": "Space offset to use from the longest file pattern the first code owner when aligning."
         },
+        "githubCodeOwners.fileCounts.enabled": {
+          "order": 5,
+          "type": "boolean",
+          "default": true,
+          "description": "Show how many files each rule owns at the end of its line."
+        },
         "githubCodeOwners.languageServer.path": {
           "order": 4,
           "type": "string",

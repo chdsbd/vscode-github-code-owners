@@ -1,13 +1,18 @@
 import fs from "fs"
 import vscode from "vscode"
 import {
+  InlayHintRequest,
   LanguageClient,
   TransportKind,
   type LanguageClientOptions,
   type ServerOptions,
 } from "vscode-languageclient/node"
 
-import { getLanguageServerPath } from "./configuration"
+import {
+  FILE_COUNTS_ENABLED,
+  getLanguageServerPath,
+  isFileCountsEnabled,
+} from "./configuration"
 
 /** The rule that owns a file, from the `gh-codeowners/owner` request. */
 type OwnerResult = {
@@ -71,6 +76,10 @@ export class CodeownersLanguageServer {
         { language: "codeowners", scheme: "untitled" },
       ],
       outputChannel,
+      middleware: {
+        provideInlayHints: (document, viewPort, token, next) =>
+          isFileCountsEnabled() ? next(document, viewPort, token) : [],
+      },
     }
     const client = new LanguageClient(
       "githubCodeOwners",
@@ -86,7 +95,18 @@ export class CodeownersLanguageServer {
       )
       return null
     }
-    context.subscriptions.push(client)
+    context.subscriptions.push(
+      client,
+      vscode.workspace.onDidChangeConfiguration((e) => {
+        if (!e.affectsConfiguration(FILE_COUNTS_ENABLED)) {
+          return
+        }
+        const feature = client.getFeature(InlayHintRequest.method)
+        for (const document of vscode.workspace.textDocuments) {
+          feature.getProvider(document)?.onDidChangeInlayHints.fire()
+        }
+      }),
+    )
     return new CodeownersLanguageServer(client)
   }
 

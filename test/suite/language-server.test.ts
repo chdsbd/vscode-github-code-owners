@@ -80,6 +80,29 @@ suite("language server", function () {
     )
   })
 
+  test("hides file counts when they're disabled", async () => {
+    const config = vscode.workspace.getConfiguration("githubCodeOwners")
+    await config.update(
+      "fileCounts.enabled",
+      false,
+      vscode.ConfigurationTarget.Global,
+    )
+    try {
+      const hints = await vscode.commands.executeCommand<vscode.InlayHint[]>(
+        "vscode.executeInlayHintProvider",
+        codeowners,
+        new vscode.Range(0, 0, 3, 0),
+      )
+      assert.deepStrictEqual(hints, [])
+    } finally {
+      await config.update(
+        "fileCounts.enabled",
+        undefined,
+        vscode.ConfigurationTarget.Global,
+      )
+    }
+  })
+
   test("opens the rule that owns a file", async () => {
     await vscode.window.showTextDocument(owned)
     await vscode.commands.executeCommand("github-code-owners.show-owners")

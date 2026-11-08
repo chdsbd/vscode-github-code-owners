@@ -79,3 +79,9 @@ export function getLanguageServerPath(): string | null {
     .get<string>("githubCodeOwners.languageServer.path")
   return setting || null
 }
+
+export const FILE_COUNTS_ENABLED = "githubCodeOwners.fileCounts.enabled"
+
+export function isFileCountsEnabled(): boolean {
+  return vscode.workspace.getConfiguration().get(FILE_COUNTS_ENABLED) !== false
+}
