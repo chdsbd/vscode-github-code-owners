@@ -14,13 +14,17 @@ Shows the first code owner. Click to see matching line in CODEOWNERS file.
 
 ### Language support
 
-#### Errors, unused rules and file counts
-
 The extension uses [gh-codeowners](https://github.com/chdsbd/gh-codeowners) to count file matches and warn about unused or malformed rules.
+
+#### Counts for matching rules
 
 <img src="./images/owns-4-files.png" alt="hover showing a rule owns 4 files" height="87px"/>
 
+#### Warning for unused rules
+
 <img src="./images/no-files-match.png" alt="warning that a rule owns no files" height="93px"/>
+
+#### Quick fixes for invalid patterns
 
 <img src="./images/invalid-pattern.png" alt="error for an invalid pattern, with the escaped version to use instead" height="142px"/>
 
