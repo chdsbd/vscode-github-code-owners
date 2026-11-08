@@ -1,6 +1,8 @@
-# [github-code-owners](https://github.com/chdsbd/vscode-github-code-owners) [![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/v/chdsbd.github-code-owners.svg)](https://marketplace.visualstudio.com/items?itemName=chdsbd.github-code-owners) [![Visual Studio Marketplace Installs](https://img.shields.io/visual-studio-marketplace/i/chdsbd.github-code-owners.svg)](https://marketplace.visualstudio.com/items?itemName=chdsbd.github-code-owners)
+# GitHub Code Owners
 
 A VS Code extension to display the GitHub Code Owners for the current file, as defined in the [CODEOWNERS](https://help.github.com/articles/about-codeowners/) file.
+
+[Install on the Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=chdsbd.github-code-owners)
 
 ## Features
 
@@ -14,9 +16,7 @@ Shows the first code owner. Click to see matching line in CODEOWNERS file.
 
 #### Errors, unused rules and file counts
 
-The extension runs [gh-codeowners](https://github.com/chdsbd/gh-codeowners) as a language server, which matches files the way GitHub does. Rules GitHub skips are underlined as errors, rules that own no files are faded like unused code, and each rule shows how many files it owns. Hover a pattern for more. Hide the counts by setting `githubCodeOwners.fileCounts.enabled` to `false`.
-
-Builds for macOS, Linux and Windows bundle gh-codeowners. To use another binary, set `githubCodeOwners.languageServer.path`. To turn the language server off, set `githubCodeOwners.languageServer.enabled` to `false`.
+The extension uses [gh-codeowners](https://github.com/chdsbd/gh-codeowners) count file matches and warn about unused or malformed rules.
 
 #### Link usernames to GitHub
 

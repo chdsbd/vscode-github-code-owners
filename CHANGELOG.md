@@ -7,9 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 5.0.0 - 2026-11-07
+
 ### Changed
 
-- Use the gh-codeowners language server for errors, unused rules, file counts and owners. VS Code 1.91 or newer is required.
+- Use the gh-codeowners language server for errors and file counts.
 
 ## 4.3.0 - 2026-11-04
 
