@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 5.1.0 - 2026-11-08
+
+### Changed
+
+- Format CODEOWNERS with the gh-codeowners language server. Formatting behavior has changed (#43).
+
+### Deprecated
+
+- Unused settings are marked as deprecated: `githubCodeOwners.format.enabled` and `githubCodeOwners.format.alignmentOffset` (#43).
+
 ## 5.0.0 - 2026-11-07
 
 ### Changed

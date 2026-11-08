@@ -4,7 +4,7 @@
   "description": "Quickly see GitHub Code Owners for the current file. Add syntax highlighting for CODEOWNERS files.",
   "publisher": "chdsbd",
   "license": "SEE LICENSE IN LICENSE",
-  "version": "5.0.0",
+  "version": "5.1.0",
   "icon": "images/logo256.png",
   "homepage": "https://github.com/chdsbd/vscode-github-code-owners/blob/master/README.md",
   "keywords": [
@@ -67,14 +67,18 @@
           "type": "boolean",
           "default": false,
           "order": 1,
-          "description": "Whether or not to enable formatting."
+          "description": "Whether or not to enable formatting.",
+          "markdownDeprecationMessage": "**Deprecated**: Formatting is always available from the language server. Use `Format Document` or `#editor.formatOnSave#`.",
+          "deprecationMessage": "Deprecated: Formatting is always available from the language server. Use Format Document or editor.formatOnSave."
         },
         "githubCodeOwners.format.alignmentOffset": {
           "type": "number",
           "default": 4,
           "minimum": 1,
           "order": 2,
-          "description": "Space offset to use from the longest file pattern the first code owner when aligning."
+          "description": "Space offset to use from the longest file pattern the first code owner when aligning.",
+          "markdownDeprecationMessage": "**Deprecated**: The language server lines up owners one space after the longest pattern in each section.",
+          "deprecationMessage": "Deprecated: The language server lines up owners one space after the longest pattern in each section."
         },
         "githubCodeOwners.fileCounts.enabled": {
           "order": 6,
@@ -152,15 +156,15 @@
           }
         },
         "github-code-owners.format.enabled": {
-          "markdownDeprecationMessage": "**Deprecated**: Please use `#githubCodeOwners.format.enabled#` instead.",
-          "deprecationMessage": "Deprecated: Please use githubCodeOwners.format.enabled instead.",
+          "markdownDeprecationMessage": "**Deprecated**: Formatting is always available from the language server. Use `Format Document` or `#editor.formatOnSave#`.",
+          "deprecationMessage": "Deprecated: Formatting is always available from the language server. Use Format Document or editor.formatOnSave.",
           "type": "boolean",
           "default": false,
           "description": "Whether or not to enable formatting."
         },
         "github-code-owners.format.alignment-offset": {
-          "markdownDeprecationMessage": "**Deprecated**: Please use `#githubCodeOwners.format.alignmentOffset#` instead.",
-          "deprecationMessage": "Deprecated: Please use githubCodeOwners.format.alignmentOffset instead.",
+          "markdownDeprecationMessage": "**Deprecated**: The language server lines up owners one space after the longest pattern in each section.",
+          "deprecationMessage": "Deprecated: The language server lines up owners one space after the longest pattern in each section.",
           "type": "number",
           "default": 4,
           "minimum": 1,

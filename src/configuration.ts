@@ -17,38 +17,6 @@ export function getGitHubUrl(): string {
   return setting
 }
 
-export function isFormatEnabled(): boolean {
-  const formatEnabled = vscode.workspace
-    .getConfiguration()
-    .get("githubCodeOwners.format.enabled")
-  if (typeof formatEnabled === "boolean") {
-    return formatEnabled
-  }
-  const formatEnabledDeprecated = vscode.workspace
-    .getConfiguration()
-    .get("github-code-owners.format.enabled")
-  if (typeof formatEnabledDeprecated === "boolean") {
-    return formatEnabledDeprecated
-  }
-  return false
-}
-
-export function getAlignmentOffset(): number {
-  const alignmentOffset = vscode.workspace
-    .getConfiguration()
-    .get("githubCodeOwners.format.alignmentOffset")
-  if (typeof alignmentOffset === "number") {
-    return alignmentOffset
-  }
-  const alignmentOffsetDeprecated = vscode.workspace
-    .getConfiguration()
-    .get("github-code-owners.format.alignment-offset")
-  if (typeof alignmentOffsetDeprecated === "number") {
-    return alignmentOffsetDeprecated
-  }
-  return 4
-}
-
 export type SlackMappingConfigurationItem = {
   domain: string
   channel: string

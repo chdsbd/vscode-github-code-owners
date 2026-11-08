@@ -6,7 +6,6 @@ import { OwnerNameCompletionItemProvider } from "./owner-name-completion-item-pr
 import { showOwnersCommandHandler } from "./show-owners-command"
 import { CodeownersHoverProvider } from "./codeowners-hover-provider"
 import { statusBarTextEditorListener } from "./status-bar-text-editor-listener"
-import { AlignOwnersFormattingProvider } from "./align-codeowners"
 import { registerCodeownersDiagnostics } from "./codeowners-diagnostic-provider"
 import { CodeownersLanguageServer } from "./language-server"
 import { LANGUAGE_SERVER } from "./configuration"
@@ -23,7 +22,7 @@ export async function activate(context: vscode.ExtensionContext) {
       log: true,
     },
   )
-  // Diagnostics, hovers, file counts and owners come from gh-codeowners'
+  // Diagnostics, hovers, file counts, owners and formatting come from gh-codeowners'
   // language server, when this platform has it.
   const server = await CodeownersLanguageServer.start(context, outputChannel)
   const getServer = () => server
@@ -39,11 +38,6 @@ export async function activate(context: vscode.ExtensionContext) {
       new GitHubUsernamesLinkProvider(),
     ),
   }
-
-  vscode.languages.registerDocumentFormattingEditProvider(
-    CODEOWNERS_SELECTOR,
-    new AlignOwnersFormattingProvider(),
-  )
 
   context.subscriptions.push(
     vscode.commands.registerCommand(
