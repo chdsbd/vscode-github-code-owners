@@ -14,7 +14,7 @@ Shows the first code owner. Click to see matching line in CODEOWNERS file.
 
 ### Language support
 
-The extension uses [gh-codeowners](https://github.com/chdsbd/gh-codeowners) to count file matches and warn about unused or malformed rules.
+The extension uses [gh-codeowners](https://github.com/chdsbd/gh-codeowners) to count file matches, warn about unused or malformed rules, and format CODEOWNERS.
 
 #### Counts for matching rules
 
@@ -36,9 +36,9 @@ The extension uses [gh-codeowners](https://github.com/chdsbd/gh-codeowners) to c
 
 #### Link usernames to Slack
 
-<img src="./images/open-in-slack.png" alt="click to open username in GitHub" height="110px"/>
+<img src="./images/open-in-slack.png" alt="click to open username in Slack" height="110px"/>
 
-> Define a Slack mapping in your VSCode settings (`github-code-owners.team-mapping.slack`) to enable this feature.
+> Define a Slack mapping in your VSCode settings (`githubCodeOwners.teamMapping.slack`) to enable this feature.
 
 #### Auto complete
 
@@ -52,7 +52,7 @@ Escapes, wildcards, comments and owners are highlighted the way GitHub reads the
 
 #### Formatting
 
-Format Document lines up owners and trailing comments in each section, one space after the longest pattern. Formatting comes from the gh-codeowners language server, so it's unavailable when `githubCodeOwners.languageServer.enabled` is off.
+Format Document lines up owners and trailing comments in each section.
 
 <img src="./images/formatting.png" alt="owners lined up in each section of a CODEOWNERS file" height="193px"/>
 
@@ -78,7 +78,7 @@ Download the extension package from the [latest Github release](https://github.c
 
 ### From source
 
-Clone [this repo](https://github.com/chdsbd/vscode-github-code-owners) and run `npm ci` and `npm run package`. Install the resulting package with `code --install-extension github-code-owners-*.vsix`
+Clone [this repo](https://github.com/chdsbd/vscode-github-code-owners) and run `npm ci`, `s/download-server darwin-arm64` (or your platform) to bundle the language server, and `npm run package`. Install the resulting package with `code --install-extension github-code-owners-*.vsix`
 
 ## Related extensions
 
@@ -90,4 +90,4 @@ Clone [this repo](https://github.com/chdsbd/vscode-github-code-owners) and run `
 
 ## Fork
 
-This repository is forked from [jasonnutter/vscode-codeowners](https://github.com/jasonnutter/vscode-codeowners), with UI changes and more correct CODEOWNERS compliance via [@snyk/github-codeowners](https://www.npmjs.com/package/@snyk/github-codeowners).
+This repository is forked from [jasonnutter/vscode-codeowners](https://github.com/jasonnutter/vscode-codeowners), with UI changes and more correct CODEOWNERS compliance via [gh-codeowners](https://github.com/chdsbd/gh-codeowners).
