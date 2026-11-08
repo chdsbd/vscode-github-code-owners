@@ -16,7 +16,7 @@ Shows the first code owner. Click to see matching line in CODEOWNERS file.
 
 #### Errors, unused rules and file counts
 
-The extension uses [gh-codeowners](https://github.com/chdsbd/gh-codeowners) count file matches and warn about unused or malformed rules.
+The extension uses [gh-codeowners](https://github.com/chdsbd/gh-codeowners) to count file matches and warn about unused or malformed rules.
 
 <img src="./images/4-matches.png" alt="hover showing a rule owns 4 files" height="124px"/>
 
