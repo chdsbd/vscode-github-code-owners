@@ -9,6 +9,7 @@ import { statusBarTextEditorListener } from "./status-bar-text-editor-listener"
 import { AlignOwnersFormattingProvider } from "./align-codeowners"
 import { registerCodeownersDiagnostics } from "./codeowners-diagnostic-provider"
 import { CodeownersLanguageServer } from "./language-server"
+import { LANGUAGE_SERVER } from "./configuration"
 
 const COMMAND_ID = "github-code-owners.show-owners"
 
@@ -91,6 +92,23 @@ export async function activate(context: vscode.ExtensionContext) {
     vscode.window.onDidChangeActiveTextEditor(updateStatusBar),
   )
   void updateStatusBar()
+
+  // The built-in features replace the server's only at activation.
+  context.subscriptions.push(
+    vscode.workspace.onDidChangeConfiguration(async (e) => {
+      if (!e.affectsConfiguration(LANGUAGE_SERVER)) {
+        return
+      }
+      const reload = "Reload Window"
+      const choice = await vscode.window.showInformationMessage(
+        "Reload the window to apply the GitHub Code Owners language server setting.",
+        reload,
+      )
+      if (choice === reload) {
+        await vscode.commands.executeCommand("workbench.action.reloadWindow")
+      }
+    }),
+  )
 
   vscode.workspace.onDidChangeConfiguration(() => {
     outputChannel.appendLine("Configuration changed: Reloading link provider")

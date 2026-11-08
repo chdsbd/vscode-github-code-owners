@@ -12,6 +12,7 @@ import {
   FILE_COUNTS_ENABLED,
   getLanguageServerPath,
   isFileCountsEnabled,
+  isLanguageServerEnabled,
 } from "./configuration"
 
 /** The rule that owns a file, from the `gh-codeowners/owner` request. */
@@ -51,13 +52,19 @@ export class CodeownersLanguageServer {
   private constructor(private readonly client: LanguageClient) {}
 
   /**
-   * Start gh-codeowners' language server, or return null if there's no
-   * binary for this platform.
+   * Start gh-codeowners' language server, or return null if it's disabled
+   * or there's no binary for this platform.
    */
   static async start(
     context: vscode.ExtensionContext,
     outputChannel: vscode.LogOutputChannel,
   ): Promise<CodeownersLanguageServer | null> {
+    if (!isLanguageServerEnabled()) {
+      outputChannel.appendLine(
+        "The language server is disabled: using the built-in features",
+      )
+      return null
+    }
     const command = serverPath(context)
     if (command == null) {
       outputChannel.appendLine(

@@ -76,7 +76,7 @@ export function getTeamMappingSlack(): Array<SlackMappingConfigurationItem> {
 export function getLanguageServerPath(): string | null {
   const setting = vscode.workspace
     .getConfiguration()
-    .get<string>("githubCodeOwners.languageServer.path")
+    .get<string>(`${LANGUAGE_SERVER}.path`)
   return setting || null
 }
 
@@ -84,4 +84,13 @@ export const FILE_COUNTS_ENABLED = "githubCodeOwners.fileCounts.enabled"
 
 export function isFileCountsEnabled(): boolean {
   return vscode.workspace.getConfiguration().get(FILE_COUNTS_ENABLED) !== false
+}
+
+export const LANGUAGE_SERVER = "githubCodeOwners.languageServer"
+
+export function isLanguageServerEnabled(): boolean {
+  return (
+    vscode.workspace.getConfiguration().get(`${LANGUAGE_SERVER}.enabled`) !==
+    false
+  )
 }

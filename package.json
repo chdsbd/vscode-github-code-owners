@@ -77,17 +77,23 @@
           "description": "Space offset to use from the longest file pattern the first code owner when aligning."
         },
         "githubCodeOwners.fileCounts.enabled": {
-          "order": 5,
+          "order": 6,
           "type": "boolean",
           "default": true,
           "description": "Show how many files each rule owns at the end of its line."
         },
-        "githubCodeOwners.languageServer.path": {
+        "githubCodeOwners.languageServer.enabled": {
           "order": 4,
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Run [gh-codeowners](https://github.com/chdsbd/gh-codeowners) as a language server for errors, unused rules, file counts and owners. When disabled, the extension uses its simpler built-in checks."
+        },
+        "githubCodeOwners.languageServer.path": {
+          "order": 5,
           "type": "string",
           "default": "",
           "scope": "machine",
-          "markdownDescription": "Path to a [gh-codeowners](https://github.com/chdsbd/gh-codeowners) binary to run as the language server, instead of the one bundled with the extension. Takes effect after reloading the window."
+          "markdownDescription": "Path to a [gh-codeowners](https://github.com/chdsbd/gh-codeowners) binary to run as the language server, instead of the one bundled with the extension."
         },
         "githubCodeOwners.teamMapping.slack": {
           "order": 3,
