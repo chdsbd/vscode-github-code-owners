@@ -9,13 +9,31 @@ GH_CODEOWNERS_VERSION=v0.1.0
 
 target=$1
 case "$target" in
-  darwin-arm64) asset=gh-codeowners-darwin-arm64 ;;
-  darwin-x64) asset=gh-codeowners-darwin-amd64 ;;
+  darwin-arm64)
+    asset=gh-codeowners-darwin-arm64
+    sha256=d6f26abb89060b7535bbd9414f1828ef93682766e35c9f310a9e70999364ecfc
+    ;;
+  darwin-x64)
+    asset=gh-codeowners-darwin-amd64
+    sha256=d11bdc146a80b71db90ec0f47cebac5ba31be7040a42d385ffad96e495df4dfc
+    ;;
   # The Linux binaries are static, so they run on Alpine too.
-  linux-x64 | alpine-x64) asset=gh-codeowners-linux-amd64 ;;
-  linux-arm64 | alpine-arm64) asset=gh-codeowners-linux-arm64 ;;
-  win32-x64) asset=gh-codeowners-windows-amd64.exe ;;
-  win32-arm64) asset=gh-codeowners-windows-arm64.exe ;;
+  linux-x64 | alpine-x64)
+    asset=gh-codeowners-linux-amd64
+    sha256=090589a6937f2328b544372da68ba6fae1d5521c780a7215a056e00a8b65aea7
+    ;;
+  linux-arm64 | alpine-arm64)
+    asset=gh-codeowners-linux-arm64
+    sha256=26705846b02fe9d7a57120ebf2e632bacba56eba53ee53128dd3c7490b454a92
+    ;;
+  win32-x64)
+    asset=gh-codeowners-windows-amd64.exe
+    sha256=77e4ffcad0bdf3462a735de701d4578985dd858c326ec6536e3bd027ec2c9187
+    ;;
+  win32-arm64)
+    asset=gh-codeowners-windows-arm64.exe
+    sha256=6747439c29275d3590f03c8325487d3d10db43ecace71541c638f23f1845ba04
+    ;;
   *)
     echo "No gh-codeowners binary for $target" >&2
     exit 1
@@ -34,4 +52,5 @@ gh release download "$GH_CODEOWNERS_VERSION" \
   --repo chdsbd/gh-codeowners \
   --pattern "$asset" \
   --output "bin/gh-codeowners$exe"
+echo "$sha256  bin/gh-codeowners$exe" | shasum -a 256 --check
 chmod +x "bin/gh-codeowners$exe"
