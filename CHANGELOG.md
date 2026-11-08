@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Use the gh-codeowners language server for errors and file counts.
+- Use the gh-codeowners language server for errors and file counts (#42).
 
 ## 4.3.0 - 2026-11-04
 
