@@ -18,11 +18,11 @@ Shows the first code owner. Click to see matching line in CODEOWNERS file.
 
 The extension uses [gh-codeowners](https://github.com/chdsbd/gh-codeowners) to count file matches and warn about unused or malformed rules.
 
-<img src="./images/4-matches.png" alt="hover showing a rule owns 4 files" height="124px"/>
+<img src="./images/owns-4-files.png" alt="hover showing a rule owns 4 files" height="87px"/>
 
-<img src="./images/no-matches.png" alt="warning that a rule owns no files" height="169px"/>
+<img src="./images/no-files-match.png" alt="warning that a rule owns no files" height="133px"/>
 
-<img src="./images/invalid-pattern.png" alt="error for an invalid pattern, with the escaped version to use instead" height="209px"/>
+<img src="./images/invalid-pattern.png" alt="error for an invalid pattern, with the escaped version to use instead" height="191px"/>
 
 #### Link usernames to GitHub
 
