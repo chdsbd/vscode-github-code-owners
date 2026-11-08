@@ -20,9 +20,11 @@ The extension uses [gh-codeowners](https://github.com/chdsbd/gh-codeowners) to c
 
 <img src="./images/owns-4-files.png" alt="hover showing a rule owns 4 files" height="87px"/>
 
-<img src="./images/no-files-match.png" alt="warning that a rule owns no files" height="133px"/>
+<img src="./images/no-files-match.png" alt="warning that a rule owns no files" height="93px"/>
 
-<img src="./images/invalid-pattern.png" alt="error for an invalid pattern, with the escaped version to use instead" height="191px"/>
+<img src="./images/invalid-pattern.png" alt="error for an invalid pattern, with the escaped version to use instead" height="142px"/>
+
+<img src="./images/quick-fix.png" alt="quick fix escaping the brackets in an invalid pattern" height="122px"/>
 
 #### Link usernames to GitHub
 
