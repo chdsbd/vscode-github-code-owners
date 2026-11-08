@@ -101,6 +101,29 @@ suite("language server", function () {
     assert.strictEqual(edit?.newText, "/app/\\[id\\]/")
   })
 
+  test("formats the document", async () => {
+    const document = await vscode.workspace.openTextDocument({
+      language: "codeowners",
+      content: "  /src/ @acme/web   # web\n/docs/   @acme/docs\n",
+    })
+    const edits = await waitFor(
+      () =>
+        vscode.commands.executeCommand<vscode.TextEdit[] | undefined>(
+          "vscode.executeFormatDocumentProvider",
+          document.uri,
+          { tabSize: 2, insertSpaces: true },
+        ),
+      (e) => e != null && e.length > 0,
+    )
+    const edit = new vscode.WorkspaceEdit()
+    edit.set(document.uri, edits ?? [])
+    await vscode.workspace.applyEdit(edit)
+    assert.strictEqual(
+      document.getText(),
+      "/src/  @acme/web # web\n/docs/ @acme/docs\n",
+    )
+  })
+
   test("hides file counts when they're disabled", async () => {
     const config = vscode.workspace.getConfiguration("githubCodeOwners")
     await config.update(

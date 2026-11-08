@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Format CODEOWNERS with the gh-codeowners language server. Formatting no longer needs a setting, and each section lines up on its own.
+
+### Deprecated
+
+- `githubCodeOwners.format.enabled` and `githubCodeOwners.format.alignmentOffset`, which no longer do anything.
+
 ## 5.0.0 - 2026-11-07
 
 ### Changed

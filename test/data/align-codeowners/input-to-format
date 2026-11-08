@@ -1,9 +1,0 @@
-*               @foo
-  /some-path @bar
-another-path/but-loooooooooonger                                 @baz
-
-# a comment
-
-    # an indented comment
-/docs/**/*.md                     @foo @bar
-# /docs/**/*.rst                     @foo @bar

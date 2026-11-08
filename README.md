@@ -52,7 +52,7 @@ Escapes, wildcards, comments and owners are highlighted the way GitHub reads the
 
 #### Formatting
 
-> Enable formatting by setting `github-code-owners.format.enabled` to `true`.
+Format Document lines up owners and trailing comments in each section, one space after the longest pattern. Formatting comes from the gh-codeowners language server, so it's unavailable when `githubCodeOwners.languageServer.enabled` is off.
 
 <img src="./images/formatting.gif" alt="auto complete of paths and usernames" width="408px" height="185px"/>
 
