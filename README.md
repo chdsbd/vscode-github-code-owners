@@ -54,7 +54,7 @@ Escapes, wildcards, comments and owners are highlighted the way GitHub reads the
 
 Format Document lines up owners and trailing comments in each section, one space after the longest pattern. Formatting comes from the gh-codeowners language server, so it's unavailable when `githubCodeOwners.languageServer.enabled` is off.
 
-<img src="./images/formatting.gif" alt="auto complete of paths and usernames" width="408px" height="185px"/>
+<img src="./images/formatting.png" alt="owners lined up in each section of a CODEOWNERS file" height="193px"/>
 
 ### Command
 
