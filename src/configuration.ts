@@ -62,3 +62,26 @@ export function isLanguageServerEnabled(): boolean {
     false
   )
 }
+
+export const FORMAT = "githubCodeOwners.format"
+
+/** Settings for the language server, from the extension's settings. */
+export type ServerSettings = {
+  format: { style: "default" | "legacy"; alignmentOffset: number }
+}
+
+export function getServerSettings(): ServerSettings {
+  const config = vscode.workspace.getConfiguration(FORMAT)
+  const alignmentOffset = config.get("alignmentOffset")
+  return {
+    format: {
+      style: config.get("style") === "legacy" ? "legacy" : "default",
+      alignmentOffset:
+        typeof alignmentOffset === "number" &&
+        Number.isInteger(alignmentOffset) &&
+        alignmentOffset >= 0
+          ? alignmentOffset
+          : 4,
+    },
+  }
+}

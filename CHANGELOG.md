@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add `githubCodeOwners.format.style`. Set it to `legacy` to format like before 5.1.0, lining up the first owner of every rule, offset from the longest pattern by `githubCodeOwners.format.alignmentOffset`.
+
+### Changed
+
+- `githubCodeOwners.format.alignmentOffset` is no longer deprecated. It sets the offset for the `legacy` style.
+
 ## 5.1.0 - 2026-11-08
 
 ### Changed

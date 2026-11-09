@@ -124,6 +124,44 @@ suite("language server", function () {
     )
   })
 
+  test("formats in the legacy style when it's set", async () => {
+    const config = vscode.workspace.getConfiguration("githubCodeOwners")
+    await config.update(
+      "format.style",
+      "legacy",
+      vscode.ConfigurationTarget.Global,
+    )
+    try {
+      const document = await vscode.workspace.openTextDocument({
+        language: "codeowners",
+        content: "  /src/ @acme/web   @acme/x # web\n/docs/   @acme/docs\n",
+      })
+      const edits = await waitFor(
+        () =>
+          vscode.commands.executeCommand<vscode.TextEdit[] | undefined>(
+            "vscode.executeFormatDocumentProvider",
+            document.uri,
+            { tabSize: 2, insertSpaces: true },
+          ),
+        (e) => e != null && e.length > 0,
+      )
+      const edit = new vscode.WorkspaceEdit()
+      edit.set(document.uri, edits ?? [])
+      await vscode.workspace.applyEdit(edit)
+      // Owners line up 4 spaces after the longest pattern, as before 5.1.0.
+      assert.strictEqual(
+        document.getText(),
+        "  /src/      @acme/web   @acme/x # web\n/docs/       @acme/docs\n",
+      )
+    } finally {
+      await config.update(
+        "format.style",
+        undefined,
+        vscode.ConfigurationTarget.Global,
+      )
+    }
+  })
+
   test("hides file counts when they're disabled", async () => {
     const config = vscode.workspace.getConfiguration("githubCodeOwners")
     await config.update(

@@ -68,17 +68,29 @@
           "default": false,
           "order": 1,
           "description": "Whether or not to enable formatting.",
-          "markdownDeprecationMessage": "**Deprecated**: Formatting is always available from the language server. Use `Format Document` or `#editor.formatOnSave#`.",
-          "deprecationMessage": "Deprecated: Formatting is always available from the language server. Use Format Document or editor.formatOnSave."
+          "markdownDeprecationMessage": "**Deprecated**: Formatting is always available from the language server. Use `Format Document` or `#editor.formatOnSave#`. To format like before, set `#githubCodeOwners.format.style#` to `legacy`.",
+          "deprecationMessage": "Deprecated: Formatting is always available from the language server. Use Format Document or editor.formatOnSave. To format like before, set githubCodeOwners.format.style to legacy."
         },
         "githubCodeOwners.format.alignmentOffset": {
           "type": "number",
           "default": 4,
           "minimum": 1,
           "order": 2,
-          "description": "Space offset to use from the longest file pattern the first code owner when aligning.",
-          "markdownDeprecationMessage": "**Deprecated**: The language server lines up owners one space after the longest pattern in each section.",
-          "deprecationMessage": "Deprecated: The language server lines up owners one space after the longest pattern in each section."
+          "markdownDescription": "With `#githubCodeOwners.format.style#` set to `legacy`, space offset to use from the longest file pattern to the first code owner when aligning."
+        },
+        "githubCodeOwners.format.style": {
+          "type": "string",
+          "default": "default",
+          "order": 1,
+          "enum": [
+            "default",
+            "legacy"
+          ],
+          "markdownEnumDescriptions": [
+            "Line up owners and trailing comments in each section, one space after the longest pattern.",
+            "Line up the first owner of every rule in the file, offset from the longest pattern by `#githubCodeOwners.format.alignmentOffset#`, and change nothing else, like before 5.1.0."
+          ],
+          "markdownDescription": "How Format Document formats CODEOWNERS."
         },
         "githubCodeOwners.fileCounts.enabled": {
           "order": 6,
@@ -156,15 +168,15 @@
           }
         },
         "github-code-owners.format.enabled": {
-          "markdownDeprecationMessage": "**Deprecated**: Formatting is always available from the language server. Use `Format Document` or `#editor.formatOnSave#`.",
-          "deprecationMessage": "Deprecated: Formatting is always available from the language server. Use Format Document or editor.formatOnSave.",
+          "markdownDeprecationMessage": "**Deprecated**: Formatting is always available from the language server. Use `Format Document` or `#editor.formatOnSave#`. To format like before, set `#githubCodeOwners.format.style#` to `legacy`.",
+          "deprecationMessage": "Deprecated: Formatting is always available from the language server. Use Format Document or editor.formatOnSave. To format like before, set githubCodeOwners.format.style to legacy.",
           "type": "boolean",
           "default": false,
           "description": "Whether or not to enable formatting."
         },
         "github-code-owners.format.alignment-offset": {
-          "markdownDeprecationMessage": "**Deprecated**: The language server lines up owners one space after the longest pattern in each section.",
-          "deprecationMessage": "Deprecated: The language server lines up owners one space after the longest pattern in each section.",
+          "markdownDeprecationMessage": "**Deprecated**: Please use `#githubCodeOwners.format.alignmentOffset#` instead.",
+          "deprecationMessage": "Deprecated: Please use githubCodeOwners.format.alignmentOffset instead.",
           "type": "number",
           "default": 4,
           "minimum": 1,

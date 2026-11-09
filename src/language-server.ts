@@ -1,6 +1,7 @@
 import fs from "fs"
 import vscode from "vscode"
 import {
+  DidChangeConfigurationNotification,
   InlayHintRequest,
   LanguageClient,
   TransportKind,
@@ -10,7 +11,9 @@ import {
 
 import {
   FILE_COUNTS_ENABLED,
+  FORMAT,
   getLanguageServerPath,
+  getServerSettings,
   isFileCountsEnabled,
   isLanguageServerEnabled,
 } from "./configuration"
@@ -83,6 +86,7 @@ export class CodeownersLanguageServer {
         { language: "codeowners", scheme: "untitled" },
       ],
       outputChannel,
+      initializationOptions: getServerSettings(),
       middleware: {
         provideInlayHints: (document, viewPort, token, next) =>
           isFileCountsEnabled() ? next(document, viewPort, token) : [],
@@ -105,6 +109,14 @@ export class CodeownersLanguageServer {
     context.subscriptions.push(
       client,
       vscode.workspace.onDidChangeConfiguration((e) => {
+        if (e.affectsConfiguration(FORMAT)) {
+          void client.sendNotification(
+            DidChangeConfigurationNotification.type,
+            {
+              settings: getServerSettings(),
+            },
+          )
+        }
         if (!e.affectsConfiguration(FILE_COUNTS_ENABLED)) {
           return
         }
