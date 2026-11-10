@@ -64,24 +64,58 @@ export function isLanguageServerEnabled(): boolean {
 }
 
 export const FORMAT = "githubCodeOwners.format"
+const DEPRECATED_ALIGNMENT_OFFSETS = [
+  "githubCodeOwners.format.alignmentOffset",
+  "github-code-owners.format.alignment-offset",
+]
 
 /** Settings for the language server, from the extension's settings. */
 export type ServerSettings = {
-  format: { style: "default" | "legacy"; alignmentOffset: number }
+  format: { align: "group" | "file"; spacing: number }
+}
+
+/** The setting's value, if the user set it anywhere. */
+function userValue(key: string): unknown {
+  const value = vscode.workspace.getConfiguration().inspect(key)
+  return (
+    value?.workspaceFolderValue ?? value?.workspaceValue ?? value?.globalValue
+  )
+}
+
+function isSpacing(value: unknown): value is number {
+  return typeof value === "number" && Number.isInteger(value) && value >= 1
+}
+
+function getSpacing(): number {
+  const spacing = userValue(`${FORMAT}.spacing`)
+  if (isSpacing(spacing)) {
+    return spacing
+  }
+  // The deprecated offset was one less than the spaces it made.
+  for (const key of DEPRECATED_ALIGNMENT_OFFSETS) {
+    const offset = userValue(key)
+    if (isSpacing(offset)) {
+      return offset + 1
+    }
+  }
+  return 1
 }
 
 export function getServerSettings(): ServerSettings {
-  const config = vscode.workspace.getConfiguration(FORMAT)
-  const alignmentOffset = config.get("alignmentOffset")
+  const align = vscode.workspace.getConfiguration(FORMAT).get("align")
   return {
     format: {
-      style: config.get("style") === "legacy" ? "legacy" : "default",
-      alignmentOffset:
-        typeof alignmentOffset === "number" &&
-        Number.isInteger(alignmentOffset) &&
-        alignmentOffset >= 0
-          ? alignmentOffset
-          : 4,
+      align: align === "file" ? "file" : "group",
+      spacing: getSpacing(),
     },
   }
+}
+
+export function affectsServerSettings(
+  e: vscode.ConfigurationChangeEvent,
+): boolean {
+  return (
+    e.affectsConfiguration(FORMAT) ||
+    DEPRECATED_ALIGNMENT_OFFSETS.some((key) => e.affectsConfiguration(key))
+  )
 }

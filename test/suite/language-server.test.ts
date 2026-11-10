@@ -124,41 +124,50 @@ suite("language server", function () {
     )
   })
 
-  test("formats in the legacy style when it's set", async () => {
+  test("formats with the alignment and spacing from the settings", async () => {
+    const content = "  /src/ @acme/web   @acme/x # web\n/docs/   @acme/docs\n"
+    // `content` formatted, waiting for the server to get new settings.
+    const formatted = (expected: string) =>
+      waitFor(
+        async () => {
+          const document = await vscode.workspace.openTextDocument({
+            language: "codeowners",
+            content,
+          })
+          const edits = await vscode.commands.executeCommand<
+            vscode.TextEdit[] | undefined
+          >("vscode.executeFormatDocumentProvider", document.uri, {
+            tabSize: 2,
+            insertSpaces: true,
+          })
+          const edit = new vscode.WorkspaceEdit()
+          edit.set(document.uri, edits ?? [])
+          await vscode.workspace.applyEdit(edit)
+          return document.getText()
+        },
+        (text) => text === expected,
+      )
     const config = vscode.workspace.getConfiguration("githubCodeOwners")
-    await config.update(
-      "format.style",
-      "legacy",
-      vscode.ConfigurationTarget.Global,
-    )
+    const global = vscode.ConfigurationTarget.Global
     try {
-      const document = await vscode.workspace.openTextDocument({
-        language: "codeowners",
-        content: "  /src/ @acme/web   @acme/x # web\n/docs/   @acme/docs\n",
-      })
-      const edits = await waitFor(
-        () =>
-          vscode.commands.executeCommand<vscode.TextEdit[] | undefined>(
-            "vscode.executeFormatDocumentProvider",
-            document.uri,
-            { tabSize: 2, insertSpaces: true },
-          ),
-        (e) => e != null && e.length > 0,
-      )
-      const edit = new vscode.WorkspaceEdit()
-      edit.set(document.uri, edits ?? [])
-      await vscode.workspace.applyEdit(edit)
-      // Owners line up 4 spaces after the longest pattern, as before 5.1.0.
-      assert.strictEqual(
-        document.getText(),
-        "  /src/      @acme/web   @acme/x # web\n/docs/       @acme/docs\n",
-      )
+      // The deprecated offset still works, as spacing one more than it.
+      await config.update("format.align", "file", global)
+      await config.update("format.alignmentOffset", 4, global)
+      const file5 =
+        "  /src/     @acme/web   @acme/x # web\n/docs/      @acme/docs\n"
+      assert.strictEqual(await formatted(file5), file5)
+      // Spacing wins over the offset.
+      await config.update("format.spacing", 2, global)
+      const file2 = "  /src/  @acme/web   @acme/x # web\n/docs/   @acme/docs\n"
+      assert.strictEqual(await formatted(file2), file2)
     } finally {
-      await config.update(
-        "format.style",
-        undefined,
-        vscode.ConfigurationTarget.Global,
-      )
+      for (const key of [
+        "format.align",
+        "format.alignmentOffset",
+        "format.spacing",
+      ]) {
+        await config.update(key, undefined, global)
+      }
     }
   })
 

@@ -54,7 +54,7 @@ Escapes, wildcards, comments and owners are highlighted the way GitHub reads the
 
 Format Document lines up owners and trailing comments in each section.
 
-> To format like before 5.1.0, set `githubCodeOwners.format.style` to `legacy`. The first owner of every rule in the file lines up, offset from the longest pattern by `githubCodeOwners.format.alignmentOffset`, and nothing else changes.
+> To format like before 5.1.0, set `githubCodeOwners.format.align` to `file` and `githubCodeOwners.format.spacing` to `5`.
 
 <img src="./images/formatting.png" alt="owners lined up in each section of a CODEOWNERS file" height="193px"/>
 

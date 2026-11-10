@@ -11,7 +11,7 @@ import {
 
 import {
   FILE_COUNTS_ENABLED,
-  FORMAT,
+  affectsServerSettings,
   getLanguageServerPath,
   getServerSettings,
   isFileCountsEnabled,
@@ -109,7 +109,7 @@ export class CodeownersLanguageServer {
     context.subscriptions.push(
       client,
       vscode.workspace.onDidChangeConfiguration((e) => {
-        if (e.affectsConfiguration(FORMAT)) {
+        if (affectsServerSettings(e)) {
           void client.sendNotification(
             DidChangeConfigurationNotification.type,
             {

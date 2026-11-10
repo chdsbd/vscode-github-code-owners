@@ -9,11 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Add `githubCodeOwners.format.style`. Set it to `legacy` to format like before 5.1.0, lining up the first owner of every rule, offset from the longest pattern by `githubCodeOwners.format.alignmentOffset`.
+- Add `githubCodeOwners.format.align` and `githubCodeOwners.format.spacing`. Set them to `file` and `5` to format like before 5.1.0 (#44).
 
 ### Changed
 
-- `githubCodeOwners.format.alignmentOffset` is no longer deprecated. It sets the offset for the `legacy` style.
+- `githubCodeOwners.format.alignmentOffset` sets the spacing to the offset plus 1, when `githubCodeOwners.format.spacing` isn't set (#44).
 
 ## 5.1.0 - 2026-11-08
 
