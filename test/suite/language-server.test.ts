@@ -89,9 +89,10 @@ suite("language server", function () {
           new vscode.Range(2, 1, 2, 1),
           vscode.CodeActionKind.QuickFix.value,
         ),
-      (a) => a.length > 0,
+      // VS Code adds its own AI actions, which have no edit, and can
+      // answer before the language server does.
+      (a) => a.some((action) => action.edit != null),
     )
-    // VS Code adds its own AI actions, which have no edit.
     const fixes = actions.filter((a) => a.edit != null)
     assert.deepStrictEqual(
       fixes.map((a) => a.title),
@@ -122,6 +123,53 @@ suite("language server", function () {
       document.getText(),
       "/src/  @acme/web # web\n/docs/ @acme/docs\n",
     )
+  })
+
+  test("formats with the alignment and spacing from the settings", async () => {
+    const content = "  /src/ @acme/web   @acme/x # web\n/docs/   @acme/docs\n"
+    // `content` formatted, waiting for the server to get new settings.
+    const formatted = (expected: string) =>
+      waitFor(
+        async () => {
+          const document = await vscode.workspace.openTextDocument({
+            language: "codeowners",
+            content,
+          })
+          const edits = await vscode.commands.executeCommand<
+            vscode.TextEdit[] | undefined
+          >("vscode.executeFormatDocumentProvider", document.uri, {
+            tabSize: 2,
+            insertSpaces: true,
+          })
+          const edit = new vscode.WorkspaceEdit()
+          edit.set(document.uri, edits ?? [])
+          await vscode.workspace.applyEdit(edit)
+          return document.getText()
+        },
+        (text) => text === expected,
+      )
+    const config = vscode.workspace.getConfiguration("githubCodeOwners")
+    const global = vscode.ConfigurationTarget.Global
+    try {
+      // The deprecated offset still works, as spacing one more than it.
+      await config.update("format.align", "file", global)
+      await config.update("format.alignmentOffset", 4, global)
+      const file5 =
+        "  /src/     @acme/web   @acme/x # web\n/docs/      @acme/docs\n"
+      assert.strictEqual(await formatted(file5), file5)
+      // Spacing wins over the offset.
+      await config.update("format.spacing", 2, global)
+      const file2 = "  /src/  @acme/web   @acme/x # web\n/docs/   @acme/docs\n"
+      assert.strictEqual(await formatted(file2), file2)
+    } finally {
+      for (const key of [
+        "format.align",
+        "format.alignmentOffset",
+        "format.spacing",
+      ]) {
+        await config.update(key, undefined, global)
+      }
+    }
   })
 
   test("hides file counts when they're disabled", async () => {
