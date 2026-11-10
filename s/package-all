@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# s/package-all VERSION DIR
+#
+# Builds every VSIX package s/packages lists for VERSION into DIR, each
+# bundling its platform's gh-codeowners binary.
+set -euo pipefail
+
+cd "$(dirname "$0")/.."
+
+version=${1#v}
+dir=$2
+
+if [[ "$version" != "$(node -p "require('./package.json').version")" ]]; then
+  echo "❌ $version isn't the version in package.json" >&2
+  exit 1
+fi
+
+mkdir -p "$dir"
+# Its own file descriptor, so commands in the loop can't read the list.
+while read -r target file <&3; do
+  if [[ "$target" == universal ]]; then
+    rm -rf bin
+    npx --no-install vsce package --out "$dir/$file"
+  else
+    s/download-server "$target"
+    npx --no-install vsce package --target "$target" --out "$dir/$file"
+  fi
+done 3< <(s/packages "$version")
+rm -rf bin
+
+s/check-packages "$version" "$dir"/*.vsix

@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# s/packages VERSION
+#
+# Prints each VSIX package a release needs, as "<vsce target> <file name>".
+# Each platform's package bundles gh-codeowners as the language server. The
+# universal package has no binary, for other platforms, and falls back to the
+# built-in features.
+set -euo pipefail
+
+version=${1#v}
+
+for target in darwin-arm64 darwin-x64 linux-x64 linux-arm64 alpine-x64 alpine-arm64 win32-x64 win32-arm64 universal; do
+  echo "$target github-code-owners-$version-$target.vsix"
+done
