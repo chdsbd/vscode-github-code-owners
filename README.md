@@ -76,7 +76,7 @@ In VSCode, type `CMD`+`P` and enter `ext install chdsbd.github-code-owners`. Or 
 
 ### From Github release
 
-Download the extension package from the [latest Github release](https://github.com/chdsbd/vscode-github-code-owners/releases/latest) and run `code --install-extension github-code-owners-*.vsix`
+Download the extension package for your platform from the [latest Github release](https://github.com/chdsbd/vscode-github-code-owners/releases/latest), like `github-code-owners-5.3.0-darwin-arm64.vsix`, and run `code --install-extension github-code-owners-5.3.0-darwin-arm64.vsix`
 
 ### From source
 

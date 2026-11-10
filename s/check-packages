@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# s/check-packages VERSION FILE...
+#
+# Errors unless FILE... are exactly the VSIX packages s/packages lists for
+# VERSION. Only file names are compared, so FILE can be a path or a release
+# asset name.
+set -euo pipefail
+
+cd "$(dirname "$0")/.."
+
+version=$1
+shift
+
+expected=$(s/packages "$version" | cut -d' ' -f2 | sort)
+actual=$(for file in "$@"; do basename "$file"; done | sort)
+
+if [[ "$expected" != "$actual" ]]; then
+  echo "❌ packages don't match s/packages for $version" >&2
+  diff <(echo "$expected") <(echo "$actual") >&2 || true
+  exit 1
+fi
+echo "✅ all $(echo "$expected" | wc -l | tr -d ' ') packages"
