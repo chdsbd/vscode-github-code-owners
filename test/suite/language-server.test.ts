@@ -89,9 +89,10 @@ suite("language server", function () {
           new vscode.Range(2, 1, 2, 1),
           vscode.CodeActionKind.QuickFix.value,
         ),
-      (a) => a.length > 0,
+      // VS Code adds its own AI actions, which have no edit, and can
+      // answer before the language server does.
+      (a) => a.some((action) => action.edit != null),
     )
-    // VS Code adds its own AI actions, which have no edit.
     const fixes = actions.filter((a) => a.edit != null)
     assert.deepStrictEqual(
       fixes.map((a) => a.title),
