@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 5.2.0 - 2026-11-10
+
 ### Added
 
 - Add `githubCodeOwners.format.align` and `githubCodeOwners.format.spacing`. Set them to `file` and `5` to format like before 5.1.0 (#44).
