@@ -1,22 +1,26 @@
 #!/usr/bin/env bash
-# s/release-notes <version>
+# s/release-notes VERSION
 #
-# Print the CHANGELOG.md section for a version, like 5.2.0, without its
-# heading, for the release's notes. Errors if there's no section for it.
+# Prints the CHANGELOG.md section for VERSION, for the GitHub release notes.
 set -euo pipefail
 
-version=$1
-
 cd "$(dirname "$0")/.."
-notes=$(awk -v heading="## $version " '
-  index($0, heading) == 1 { found = 1; next }
-  found && /^## / { exit }
-  found { print }
-' CHANGELOG.md)
-# Without the blank lines around it.
-notes=$(printf '%s\n' "$notes" | sed -e '/./,$!d')
+
+version=${1#v}
+
+notes=$(awk -v version="$version" '
+  /^## / {
+    if (found) exit
+    heading = $2
+    sub(/^v/, "", heading)
+    found = heading == version
+    next
+  }
+  found
+' CHANGELOG.md | sed -e '/./,$!d')
+
 if [[ -z "$notes" ]]; then
-  echo "No section for $version in CHANGELOG.md" >&2
+  echo "❌ no CHANGELOG.md section for $version" >&2
   exit 1
 fi
 printf '%s\n' "$notes"

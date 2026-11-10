@@ -1,14 +1,19 @@
 name: Draft release
 
-# When master has a version with no release yet, draft one with its
-# CHANGELOG.md section. Publishing the draft creates the tag, which runs
-# publish.yml.
+# Pushing a version to master that has no release yet drafts one with the
+# version's CHANGELOG.md section. Publishing the draft creates the tag, which
+# runs publish.yml.
 on:
   push:
     branches:
       - "master"
 
 permissions: {}
+
+# Two quick pushes shouldn't both see the version as unreleased.
+concurrency:
+  group: draft-release
+  cancel-in-progress: false
 
 jobs:
   draft:
@@ -23,12 +28,14 @@ jobs:
         run: |
           tag="v$(node -p "require('./package.json').version")"
           # Drafts have their tag name before the tag exists.
-          if gh api "repos/$GH_REPO/releases" --paginate --jq '.[].tag_name' | grep -qxF "$tag"; then
-            echo "$tag already has a release"
-            exit 0
+          if gh api "repos/$GH_REPO/git/ref/tags/$tag" --silent 2>/dev/null; then
+            echo "$tag already exists"
+          elif gh api "repos/$GH_REPO/releases" --paginate --jq '.[].tag_name' | grep -qxF "$tag"; then
+            echo "$tag already has a draft release"
+          else
+            s/release-notes "$tag" > notes.md
+            gh release create "$tag" --draft --target "$GITHUB_SHA" --notes-file notes.md --title "$tag"
           fi
-          ./s/release-notes "${tag#v}" > notes.md
-          gh release create "$tag" --draft --target "$GITHUB_SHA" --title "$tag" --notes-file notes.md
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
